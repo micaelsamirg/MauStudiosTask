@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.exceptions.SFSRuntimeException;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 
@@ -65,6 +66,16 @@ public class FriendRequest extends BaseClientRequestHandler {
 			preparedStatement .executeUpdate();
 			
 			trace("Friend request sent successfully!");
+			
+			ISFSObject rtn = new SFSObject();
+			rtn.putBool("Success", true);
+			
+			MyExtension myExtension = (MyExtension)getParentExtension();
+			
+			myExtension.send("friend_request", rtn, player);
+			
+			trace("Friend request ressponse sent successfully!");
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
